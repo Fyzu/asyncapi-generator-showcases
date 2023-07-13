@@ -1,0 +1,71 @@
+asyncapi: 2.6.0
+info:
+  title: Title
+  version: "1.0.0"
+  description: |
+    Add your multiline description here.
+  contact:
+    name: Contact Name
+    email: email@company.com
+
+defaultContentType: application/json
+
+channels:
+  /:
+    publish:
+      message:
+        oneOf:
+          - $ref: "#/components/messages/SetupMessage"
+          - $ref: "#/components/messages/KeepaliveMessage"
+    subscribe:
+      message:
+        oneOf:
+          - $ref: "#/components/messages/SetupMessage"
+          - $ref: "#/components/messages/KeepaliveMessage"
+
+components:
+  messages:
+    KeepaliveMessage:
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/Message"
+          - type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                const: "KEEPALIVE"
+              channel:
+                type: number
+                const: 0
+
+    SetupMessage:
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/Message"
+          - type: object
+            additionalProperties: false
+            required: [keepaliveTimeout]
+            properties:
+              type:
+                type: string
+                const: "SETUP"
+              channel:
+                type: number
+                const: 0
+              keepaliveTimeout:
+                type: number
+                minimum: 1
+                maximum: 3600
+                example: 60
+
+  schemas:
+    Message:
+      type: object
+      required: [type, channel]
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+        channel:
+          type: number

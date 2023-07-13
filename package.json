@@ -1,0 +1,21 @@
+{
+  "name": "asyncapi-generator-showcases",
+  "version": "1.0.0",
+  "description": "AsyncAPI Generator showcases",
+  "author": "Dmitry Petrov <dvpetrov.main@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "pregenerate": "rm -rf src/generated",
+    "generate": "npm run generate-dxlink && npm run generate-simple && npm run generate-flat && npm run generate-kraken",
+    "generate-dxlink": "asyncapi generate models typescript ./src/schemas/asyncapi-dxlink-websocket.yml --output ./src/generated/dxlink-websocket --tsModelType=interface --tsIncludeComments --tsEnumType=union --tsExportType=named",
+    "generate-simple": "asyncapi generate models typescript ./src/schemas/asyncapi-simple.yml --output ./src/generated/simple --tsModelType=interface --tsIncludeComments --tsEnumType=union --tsExportType=named",
+    "generate-flat": "asyncapi generate models typescript ./src/schemas/asyncapi-flat.yml --output ./src/generated/flat --tsModelType=interface --tsIncludeComments --tsEnumType=union --tsExportType=named",
+    "generate-kraken": "asyncapi generate models typescript ./src/schemas/asyncapi-kraken.yml --output ./src/generated/kraken --tsModelType=interface --tsIncludeComments --tsEnumType=union --tsExportType=named"
+  },
+  "dependencies": {
+    "@asyncapi/cli": "0.50.2",
+    "@asyncapi/parser": "2.0.3",
+    "@asyncapi/generator": "1.10.9"
+  }
+}
